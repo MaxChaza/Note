@@ -32,18 +32,26 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+// Création d'une nouvelle note
 void MainWindow::createNote(){
     if(!ui->mdiArea->subWindowList().isEmpty())
     {
+        // Si une note est en cours on propose l'enregistrement puis on la ferme avant d'en créer une nouvelle
+        // QDialogue pour l'enregistrement
+
+
         QMdiSubWindow *first = ui->mdiArea->subWindowList().at(0);
         first->close();
     }
     else
     {
+        // Si aucune note n'est ouverte on en créé une
         ui->actionFermer->setEnabled(true);
     }
     QGraphicsView *note = new QGraphicsView(ui->mdiArea);
     QMdiSubWindow *sub = ui->mdiArea->addSubWindow(note);
+
+    ui->actionTexte->setEnabled(true);
 
     sub->show();
 }
@@ -54,6 +62,7 @@ void MainWindow::closeSubWindow(){
         QMdiSubWindow *first = ui->mdiArea->subWindowList().at(0);
         first->close();
         ui->actionFermer->setEnabled(false);
+        ui->actionTexte->setEnabled(false);
     }
 }
 

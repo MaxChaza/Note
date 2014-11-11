@@ -85,7 +85,7 @@
            <x>0</x>
            <y>0</y>
            <width>158</width>
-           <height>770</height>
+           <height>754</height>
           </rect>
          </property>
          <property name="acceptDrops">
@@ -111,7 +111,7 @@
      <x>0</x>
      <y>0</y>
      <width>1480</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -253,6 +253,9 @@
   <action name="actionTexte">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset>
