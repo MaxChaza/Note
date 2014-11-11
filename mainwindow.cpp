@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     QFontComboBox *choixPolice = new QFontComboBox;
     ui->mainToolBar->addWidget(choixPolice);
 
-   // ui->scrollArea->move(ui->scrollArea->x()-ui->scrollArea->width(),ui->scrollArea->y());
+    closeScroll();
 
     // Action Créer une note
     // Connexion du du signal et du slot
@@ -58,29 +58,59 @@ void MainWindow::closeSubWindow(){
 }
 
 void MainWindow::openScroll(){
-    //qDebug() << ui->scrollArea->x();
-    if(!ui->mdiArea->subWindowList().isEmpty() && !ui->scrollArea->isVisible())
+    qDebug() << ui->scrollArea->width();
+
+    if(!ui->mdiArea->subWindowList().isEmpty() && ui->scrollArea->width()==5)
     {
-        for(int i=0 ; i < ui->scrollArea->width() ; i=i+2)
-        {
-            ui->scrollArea->move(ui->scrollArea->x()+2,ui->scrollArea->y());
-            repaint();
-        }
-        ui->scrollArea->setVisible(true);
+        //ui->scrollArea->setVisible(true);
+
+        //ui->scrollArea->setFixedWidth(ui->scrollArea->width()+1);
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->scrollArea, "geometry");
+        animation->setDuration(300);
+        animation->setStartValue(QRectF(ui->scrollArea->x(), ui->scrollArea->y(), ui->scrollArea->width(), ui->scrollArea->height()));
+        animation->setEndValue(QRectF(ui->scrollArea->x(), ui->scrollArea->y(), ui->scrollArea->width()+155, ui->scrollArea->height()));
+
+        animation->setEasingCurve(QEasingCurve::Linear);
+
+        animation->start();
+
+        QPropertyAnimation *animatio = new QPropertyAnimation(ui->mdiArea, "geometry");
+        animatio->setDuration(300);
+        animatio->setStartValue(QRectF(ui->mdiArea->x(), ui->mdiArea->y(), ui->mdiArea->width(), ui->mdiArea->height()));
+        animatio->setEndValue(QRectF(ui->mdiArea->x()+155, ui->mdiArea->y(), ui->mdiArea->width()-155, ui->mdiArea->height()));
+
+        animatio->setEasingCurve(QEasingCurve::Linear);
+
+        animatio->start();
+        //ui->scrollArea->move(ui->scrollArea->x()+2,ui->scrollArea->y());
+        //repaint();
+
     }
 }
 
 void MainWindow::closeScroll(){
-    if(ui->scrollArea->isVisible())
+    // Penser à bloquer les valeurs
+    qDebug() << ui->scrollArea->width();
+
+    if(ui->scrollArea->isVisible() && ui->scrollArea->width()==160)
     {
-        int width=ui->scrollArea->width();
-        for(int i=0 ; i < width ; i=i+2)
-        {
-            //ui->scrollArea->move(ui->scrollArea->x()-1,ui->scrollArea->y());
-            ui->scrollArea->setFixedWidth(ui->scrollArea->width()-2);
-            repaint();
-        }
-        ui->scrollArea->setVisible(false);
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->scrollArea, "geometry");
+        animation->setDuration(300);
+        animation->setStartValue(QRectF(ui->scrollArea->x(), ui->scrollArea->y(), ui->scrollArea->width(), ui->scrollArea->height()));
+        animation->setEndValue(QRectF(ui->scrollArea->x(), ui->scrollArea->y(), ui->scrollArea->width()-155, ui->scrollArea->height()));
+
+        animation->setEasingCurve(QEasingCurve::Linear);
+
+        animation->start();
+
+        QPropertyAnimation *animatio = new QPropertyAnimation(ui->mdiArea, "geometry");
+        animatio->setDuration(300);
+        animatio->setStartValue(QRectF(ui->mdiArea->x(), ui->mdiArea->y(), ui->mdiArea->width(), ui->mdiArea->height()));
+        animatio->setEndValue(QRectF(ui->mdiArea->x()-155, ui->mdiArea->y(), ui->mdiArea->width()+155, ui->mdiArea->height()));
+
+        animatio->setEasingCurve(QEasingCurve::Linear);
+
+        animatio->start();
     }
 }
 
