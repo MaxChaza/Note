@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "QSvgWidget"
 
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWindow)
@@ -25,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
 
     setMouseTracking(true);
     installEventFilter(this);
+
+
 }
 
 MainWindow::~MainWindow()
@@ -48,12 +51,20 @@ void MainWindow::createNote(){
         // Si aucune note n'est ouverte on en créé une
         ui->actionFermer->setEnabled(true);
     }
-    QGraphicsView *note = new QGraphicsView(ui->mdiArea);
-    QMdiSubWindow *sub = ui->mdiArea->addSubWindow(note);
 
-    ui->actionTexte->setEnabled(true);
+    //QGraphicsView *note = new QGraphicsView(ui->mdiArea);
+
+    QSvgWidget window("../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/NewTux.svg");
+    QMdiSubWindow *sub = ui->mdiArea->addSubWindow(&window);
+    QSvgRenderer *renderer = window.renderer();
+    QImage image(850, 900, QImage::Format_RGB32);
+    QPainter painter;
+    painter.begin(&image);
+    renderer->render(&painter);
+    painter.end();
 
     sub->show();
+
 }
 
 void MainWindow::closeSubWindow(){
@@ -67,7 +78,7 @@ void MainWindow::closeSubWindow(){
 }
 
 void MainWindow::openScroll(){
-    qDebug() << ui->scrollArea->width();
+    //qDebug() << ui->scrollArea->width();
 
     if(!ui->mdiArea->subWindowList().isEmpty() && ui->scrollArea->width()==5)
     {
@@ -99,7 +110,7 @@ void MainWindow::openScroll(){
 
 void MainWindow::closeScroll(){
     // Penser à bloquer les valeurs
-    qDebug() << ui->scrollArea->width();
+    //qDebug() << ui->scrollArea->width();
 
     if(ui->scrollArea->isVisible() && ui->scrollArea->width()==160)
     {

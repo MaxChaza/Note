@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -151,4 +151,5 @@ OTHER_FILES += \
     icon/dvd.png \
     icon/cd.png \
     icon/toy.png \
-    icon/alert.png
+    icon/alert.png \
+    icon/NewTux.svg

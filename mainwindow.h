@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QtWidgets>
+#include <QtSvg/QtSvg>
 
 namespace Ui {
 class MainWindow;
