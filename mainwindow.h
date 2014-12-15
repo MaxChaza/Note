@@ -12,7 +12,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-
+    QGraphicsScene *scene;
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -23,7 +23,7 @@ public slots:
     void openScroll();
     void closeScroll();
     bool eventFilter(QObject * obj, QEvent *event);
-
+    void addText();
 private:
     Ui::MainWindow *ui;
 };
