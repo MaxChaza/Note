@@ -19,7 +19,7 @@ public:
 
 public slots:
     void createNote();
-    void closeSubWindow();
+    void closeNote();
     void openScroll();
     void closeScroll();
     bool eventFilter(QObject * obj, QEvent *event);
