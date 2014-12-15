@@ -36,16 +36,7 @@
     <bool>true</bool>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <property name="leftMargin">
-     <number>5</number>
-    </property>
-    <property name="topMargin">
-     <number>5</number>
-    </property>
-    <property name="rightMargin">
-     <number>5</number>
-    </property>
-    <property name="bottomMargin">
+    <property name="margin">
      <number>5</number>
     </property>
     <item>
@@ -84,8 +75,8 @@
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>158</width>
-           <height>754</height>
+           <width>70</width>
+           <height>770</height>
           </rect>
          </property>
          <property name="acceptDrops">
@@ -111,7 +102,7 @@
      <x>0</x>
      <y>0</y>
      <width>1480</width>
-     <height>26</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFichier">
@@ -177,6 +168,10 @@
    </property>
   </action>
   <action name="actionOuvrir_une_note">
+   <property name="icon">
+    <iconset resource="Icons.qrc">
+     <normaloff>:/icon/8ball.png</normaloff>:/icon/8ball.png</iconset>
+   </property>
    <property name="text">
     <string>Ouvrir une note</string>
    </property>
@@ -268,6 +263,8 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="Icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

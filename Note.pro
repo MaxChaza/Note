@@ -19,6 +19,7 @@ HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
 
+RESOURCES = Icons.qrc
 OTHER_FILES += \
     icon/apple-red.png \
     icon/help.png \
