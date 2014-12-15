@@ -12,9 +12,14 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    QGraphicsScene *scene;
+    Q_ENUMS(States)
 public:
     explicit MainWindow(QWidget *parent = 0);
+    enum states
+    {
+        Text,
+        Selection
+    };
     ~MainWindow();
 
 public slots:
@@ -23,9 +28,13 @@ public slots:
     void openScroll();
     void closeScroll();
     bool eventFilter(QObject * obj, QEvent *event);
-    void addText();
+    void addText(int x, int y);
+    void textState();
+
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
+    states state;
 };
 
 #endif // MAINWINDOW_H

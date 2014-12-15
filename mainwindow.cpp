@@ -10,25 +10,35 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     ui->dockWidget->setHidden(true);
     QFontComboBox *choixPolice = new QFontComboBox;
     ui->mainToolBar->addWidget(choixPolice);
-
-
-
+    
+    state = MainWindow::Selection;
+    
     // Action Créer une note
     // Connexion du du signal et du slot
     QObject::connect(ui->actionNouvelle_note, SIGNAL(triggered()), this, SLOT(createNote()));
-
+    
     // Action Fermer le fichier en cours
     // Connexion du du signal et du slot
     QObject::connect(ui->actionFermer, SIGNAL(triggered()), this, SLOT(closeNote()));
-
+    
     // Action Quitter du menu Fichier à la fermeture de l'application
     // Connexion du du signal et du slot
     QObject::connect(ui->actionQuitter, SIGNAL(triggered()), this, SLOT(close()));
-
+    
     // Action Quitter du menu Fichier à la fermeture de l'application
     // Connexion du du signal et du slot
-    QObject::connect(ui->actionTexte, SIGNAL(triggered()), this, SLOT(addText()));
+    QObject::connect(ui->actionTexte, SIGNAL(triggered()), this, SLOT(textState()));
+}
 
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+// Création d'une nouvelle note
+void MainWindow::createNote(){
+    ui->actionFermer->setEnabled(true);
+    ui->actionTexte->setEnabled(true);
 
     scene = new QGraphicsScene();
     QGraphicsTextItem *text = scene->addText("bogotobogo.com", QFont("Arial", 20) );
@@ -50,24 +60,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     ui->graphicsView->show();
 
     setMouseTracking(true);
+
     installEventFilter(this);
-
-
-}
-
-MainWindow::~MainWindow()
-{
-    delete ui;
-}
-
-// Création d'une nouvelle note
-void MainWindow::createNote(){
     //    if(!ui->mdiArea->subWindowList().isEmpty())
     //    {
     //        // Si une note est en cours on propose l'enregistrement puis on la ferme avant d'en créer une nouvelle
     //        // QDialogue pour l'enregistrement
-
-
+    
+    
     //        QMdiSubWindow *first = ui->mdiArea->subWindowList().at(0);
     //        first->close();
     //    }
@@ -76,9 +76,9 @@ void MainWindow::createNote(){
     //        // Si aucune note n'est ouverte on en créé une
     //        ui->actionFermer->setEnabled(true);
     //    }
-
+    
     //    //QGraphicsView *note = new QGraphicsView(ui->mdiArea);
-
+    
     //    QSvgWidget window("../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/NewTux.svg");
     //    QMdiSubWindow *sub = ui->mdiArea->addSubWindow(&window);
     //    QSvgRenderer *renderer = window.renderer();
@@ -87,18 +87,18 @@ void MainWindow::createNote(){
     //    painter.begin(&image);
     //    renderer->render(&painter);
     //    painter.end();
-
+    
     //    sub->show();
-
+    
 }
 
 void MainWindow::closeNote(){
-
+    
 }
 
 void MainWindow::openScroll(){
     //    //qDebug() << ui->scrollArea->width();
-
+    
     if(true)
     {
         ui->dockWidget->setHidden(false);
@@ -117,7 +117,7 @@ bool MainWindow::eventFilter(QObject * obj, QEvent *event)
         QWheelEvent *wheelEvent = static_cast<QWheelEvent*>(event);
         ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
         double scaleFactor=1.15;
-
+        
         if (wheelEvent->delta()>0) {
             ui->graphicsView->scale(scaleFactor,scaleFactor);
         } else {
@@ -127,22 +127,42 @@ bool MainWindow::eventFilter(QObject * obj, QEvent *event)
     }
     else
     {
-
-        QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-        if(mouseEvent->pos().x()<=0 && mouseEvent->pos().y()>0){
-
-            openScroll();
+        if(event->type() == QEvent::MouseButtonPress){
+            switch (state) {
+            case MainWindow::Text:
+                QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+                addText(mouseEvent->pos().x(),mouseEvent->pos().y());
+                break;
+            }
         }
+        else
+        {
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+            if(mouseEvent->pos().x()<=0 && mouseEvent->pos().y()>0){
 
-        if(mouseEvent->pos().x()>=100 && mouseEvent->pos().y()>0){
+                openScroll();
+            }
 
-            closeScroll();
+            if(mouseEvent->pos().x()>=100 && mouseEvent->pos().y()>0){
+
+                closeScroll();
+            }
         }
     }
     return false;
 }
 
-void MainWindow::addText(){
+void MainWindow::addText(int x, int y){
     //    // Penser à bloquer les valeurs
-    //    //qDebug() << ui->scrollArea->width();
+    qDebug() << "toto";
+
+    QTextEdit *texte = new QTextEdit(ui->graphicsView);
+
+    texte->setGeometry(x-20,y-60,60,20);
+    texte->show();
+
+}
+
+void MainWindow::textState(){
+    state = MainWindow::Text;
 }
