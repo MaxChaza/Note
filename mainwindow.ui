@@ -49,7 +49,14 @@
      <number>5</number>
     </property>
     <item>
-     <widget class="QGraphicsView" name="graphicsView"/>
+     <widget class="QGraphicsView" name="graphicsView">
+      <property name="verticalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+      <property name="horizontalScrollBarPolicy">
+       <enum>Qt::ScrollBarAsNeeded</enum>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
@@ -163,7 +170,7 @@
   <action name="actionNouvelle_note">
    <property name="icon">
     <iconset>
-     <normaloff>../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/text.png</normaloff>../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/text.png</iconset>
+     <normaloff>icon/text.png</normaloff>icon/text.png</iconset>
    </property>
    <property name="text">
     <string>Nouvelle note</string>
@@ -174,8 +181,8 @@
   </action>
   <action name="actionOuvrir_une_note">
    <property name="icon">
-    <iconset resource="Icons.qrc">
-     <normaloff>:/icon/8ball.png</normaloff>:/icon/8ball.png</iconset>
+    <iconset>
+     <normaloff>icon/edit.png</normaloff>icon/edit.png</iconset>
    </property>
    <property name="text">
     <string>Ouvrir une note</string>
@@ -259,8 +266,8 @@
    </property>
    <property name="icon">
     <iconset>
-     <normalon>../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/pen.png</normalon>
-    </iconset>
+     <normaloff>icon/pen.png</normaloff>
+     <normalon>../build-Note-Desktop_Qt_5_3_MinGW_32bit-Debug/debug/icon/pen.png</normalon>icon/pen.png</iconset>
    </property>
    <property name="text">
     <string>Texte</string>
@@ -268,8 +275,6 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="Icons.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

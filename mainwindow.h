@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QtWidgets>
 #include <QtSvg/QtSvg>
+#include <mygraphicsscene.h>
 
 namespace Ui {
 class MainWindow;
@@ -12,14 +13,9 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    Q_ENUMS(States)
 public:
     explicit MainWindow(QWidget *parent = 0);
-    enum states
-    {
-        Text,
-        Selection
-    };
+
     ~MainWindow();
 
 public slots:
@@ -29,12 +25,13 @@ public slots:
     void closeScroll();
     bool eventFilter(QObject * obj, QEvent *event);
     void addText(int x, int y);
+    void setPolicy(QString policy);
     void textState();
 
 private:
     Ui::MainWindow *ui;
-    QGraphicsScene *scene;
-    states state;
+    MyGraphicsScene *scene;
+    QComboBox *choixPolice;
 };
 
 #endif // MAINWINDOW_H
