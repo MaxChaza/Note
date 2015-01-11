@@ -25,6 +25,7 @@ public slots:
     void closeScroll();
     bool eventFilter(QObject * obj, QEvent *event);
     void addText(int x, int y);
+    void addText(int x, int y, QString text);
     void setPolicy(QString policy);
     void textState();
 

@@ -138,6 +138,17 @@ void MainWindow::addText(int x, int y){
     scene->bufferTextDisplayed=texte;
 }
 
+void MainWindow::addText(int x, int y, QString text){
+    QTextEdit *texte = new QTextEdit(ui->graphicsView);
+
+    texte->setGeometry(x, y, 100, 25);
+    texte->show();
+    texte->setFocus();
+    texte->setText(text);
+
+    scene->bufferTextDisplayed=texte;
+}
+
 bool MainWindow::eventFilter(QObject * obj, QEvent *event)
 {
     qDebug() << event->type();
@@ -174,7 +185,28 @@ bool MainWindow::eventFilter(QObject * obj, QEvent *event)
 
     if(event->type() == QEvent::ActionChanged) {
         qDebug()<<"QEvent::ActionChanged";
+    }
 
+    if(event->type() == QEvent::UpdateRequest)
+    {
+        if(!scene->selectedItems().isEmpty())
+        {
+            qDebug()<<"QEvent::UpdateRequest";
+            if(scene->selectedItems().length()==1)
+            {
+
+
+                QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
+                QString text = (QGraphicsTextItem(scene->selectedItems().first())).toPlainText();
+                qDebug()<<text;
+                qDebug()<<mouseEvent->pos().x();
+//                qDebug()<<mouseEvent->pos().y()-75;
+
+//                addText(mouseEvent->pos().x(),mouseEvent->pos().y()-75, text);
+
+//                scene->removeItem(scene->selectedItems().first());
+            }
+        }
     }
 
     if(event->type() == QEvent::MouseButtonPress) {
@@ -185,6 +217,11 @@ bool MainWindow::eventFilter(QObject * obj, QEvent *event)
             QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
             addText(mouseEvent->pos().x(),mouseEvent->pos().y()-75);
             scene->state = MyGraphicsScene::Text;
+            break;
+        }
+        case MyGraphicsScene::Text:
+        {
+            scene->state = MyGraphicsScene::Selection;
             break;
         }
         }

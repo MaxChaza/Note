@@ -104,7 +104,6 @@ bool MyGraphicsScene::eventFilter(QObject * obj, QEvent *event)
             displayText(bufferTextCoord->geometry().x(), bufferTextCoord->geometry().y(), bufferTextDisplayed->toPlainText());
         }
         bufferTextDisplayed->setVisible(false);
-        state=MyGraphicsScene::Selection;
         break;
     }
 
@@ -117,6 +116,7 @@ bool MyGraphicsScene::eventFilter(QObject * obj, QEvent *event)
             bufferTextCoord->setGeometry(mouseEvent->scenePos().x(),mouseEvent->scenePos().y(), 0, 0);
             break;
         }
+
         //        else
         //        {
         //            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
