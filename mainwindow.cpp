@@ -13,6 +13,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent),ui(new Ui::MainWin
     ui->mainToolBar->addWidget(choixPolice);
     choixPolice->installEventFilter(this);
 
+
     // Action Créer une note
     // Connexion du du signal et du slot
     QObject::connect(ui->actionNouvelle_note, SIGNAL(triggered()), this, SLOT(createNote()));
@@ -128,119 +129,16 @@ void MainWindow::textState(){
     scene->textState();
 }
 
-void MainWindow::addText(int x, int y){
-    QTextEdit *texte = new QTextEdit(ui->graphicsView);
-
-    texte->setGeometry(x, y, 100, 25);
-    texte->show();
-    texte->setFocus();
-
-    scene->bufferTextDisplayed=texte;
-}
-
-void MainWindow::addText(int x, int y, QString text){
-    QTextEdit *texte = new QTextEdit(ui->graphicsView);
-
-    texte->setGeometry(x, y, 100, 25);
-    texte->show();
-    texte->setFocus();
-    texte->setText(text);
-
-    scene->bufferTextDisplayed=texte;
-}
-
 bool MainWindow::eventFilter(QObject * obj, QEvent *event)
 {
     qDebug() << event->type();
 
-    //        qDebug() << obj;
+    if(event->type() == QEvent::ActionChanged){}
 
+    if(event->type() == QEvent::UpdateRequest){}
 
-    //    if (event->type() == QEvent::Wheel) {
-    //        QWheelEvent *wheelEvent = static_cast<QWheelEvent*>(event);
-    //        ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    //        double scaleFactor=1.15;
-    //        double modif;
-    //        if (wheelEvent->delta()>0) {
-    //            qDebug() << "Zoom";
-    //            modif=scaleFactor;
-    //            if(zoom<10){
-    //                zoom++;
-    //                ui->graphicsView->scale(modif,modif);
-    //            }
-    //        } else {
-    //            qDebug() << "Dezoom";
-    //            modif=1/scaleFactor;
-    //            if(zoom>-10){
-    //                zoom--;
-    //                ui->graphicsView->scale(modif,modif);
-    //            }
-    //        }
-    //        qDebug() << zoom;
+    if(event->type() == QEvent::MouseButtonPress){}
 
-    //        event->accept();
-    //    }
-    //    else
-    //    {
-
-    if(event->type() == QEvent::ActionChanged) {
-        qDebug()<<"QEvent::ActionChanged";
-    }
-
-    if(event->type() == QEvent::UpdateRequest)
-    {
-        if(!scene->selectedItems().isEmpty())
-        {
-            qDebug()<<"QEvent::UpdateRequest";
-            if(scene->selectedItems().length()==1)
-            {
-
-
-                QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-                QString text = (QGraphicsTextItem(scene->selectedItems().first())).toPlainText();
-                qDebug()<<text;
-                qDebug()<<mouseEvent->pos().x();
-//                qDebug()<<mouseEvent->pos().y()-75;
-
-//                addText(mouseEvent->pos().x(),mouseEvent->pos().y()-75, text);
-
-//                scene->removeItem(scene->selectedItems().first());
-            }
-        }
-    }
-
-    if(event->type() == QEvent::MouseButtonPress) {
-        qDebug()<<"QEvent::MouseButtonPress";
-        switch (scene->state) {
-        case MyGraphicsScene::Selection:
-        {
-            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-            addText(mouseEvent->pos().x(),mouseEvent->pos().y()-75);
-            scene->state = MyGraphicsScene::Text;
-            break;
-        }
-        case MyGraphicsScene::Text:
-        {
-            scene->state = MyGraphicsScene::Selection;
-            break;
-        }
-        }
-    }
-
-    //        else
-    //        {
-    //            QMouseEvent *mouseEvent = static_cast<QMouseEvent*>(event);
-    //            if(mouseEvent->pos().x()<=0 && mouseEvent->pos().y()>0){
-
-    //                openScroll();
-    //            }
-
-    //            if(mouseEvent->pos().x()>=100 && mouseEvent->pos().y()>0){
-
-    //                closeScroll();
-    //            }
-    //        }
-    //    }
     return false;
 }
 

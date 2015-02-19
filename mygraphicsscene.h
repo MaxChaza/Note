@@ -24,7 +24,7 @@ public:
 
 public slots:
     bool eventFilter(QObject * obj, QEvent *event);
-    QTextEdit* createText(int x, int y);
+    void createTextEdit(int x, int y);
     void displayText(int x, int y, QString inText);
     void textState();
 };

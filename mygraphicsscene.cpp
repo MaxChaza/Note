@@ -111,9 +111,17 @@ bool MyGraphicsScene::eventFilter(QObject * obj, QEvent *event)
     {
         QGraphicsSceneMouseEvent *mouseEvent = static_cast<QGraphicsSceneMouseEvent*>(event);
         qDebug()<<"QEvent::GraphicsSceneMousePress";
+
         switch (state) {
         case MyGraphicsScene::Selection:
-            bufferTextCoord->setGeometry(mouseEvent->scenePos().x(),mouseEvent->scenePos().y(), 0, 0);
+        {
+            createTextEdit(mouseEvent->scenePos().x(),mouseEvent->scenePos().y());
+            state = MyGraphicsScene::Text;
+            break;
+        }
+        case MyGraphicsScene::Text:
+        {
+            state = MyGraphicsScene::Selection;
             break;
         }
 
@@ -127,6 +135,7 @@ bool MyGraphicsScene::eventFilter(QObject * obj, QEvent *event)
         //                closeScroll();
         //            }
         //        }
+        }
         break;
     }
     }
@@ -134,36 +143,23 @@ bool MyGraphicsScene::eventFilter(QObject * obj, QEvent *event)
 }
 
 
-QTextEdit* MyGraphicsScene::createText(int x, int y){
-    // Penser à bloquer les valeurs
-    //    qDebug() << "/////////////////////////////////////////////";
-    //    qDebug() << "scene->height()";
-    //    qDebug() << scene->height();
-    //    qDebug() << "scene->width()";
-    //    qDebug() << scene->width();
-    //    qDebug() << "ui->graphicsView->height()";
-    //    qDebug() << ui->graphicsView->height();
-    //    qDebug() << "ui->graphicsView->width()";
-    //    qDebug() << ui->graphicsView->width();
+void MyGraphicsScene::createTextEdit(int x, int y){
 
-    QTextEdit *texte = new QTextEdit(parent);
-
-    texte->setGeometry(x/4, y/4, 100, 25);
-    texte->show();
-    texte->setFocus();
-    return texte;
-}
-
-void MyGraphicsScene::displayText(int x, int y, QString inText){
-    QGraphicsTextItem *text = this->addText(inText , QFont("Arial", policy));
+    QGraphicsTextItem *text = this->addText("" , QFont("Arial", policy));
 
     // movable text
     text->setPos(x, y);
     text->setFlag(QGraphicsItem::ItemIsMovable);
     text->setFlag(QGraphicsItem::ItemIsFocusable);
     text->setFlag(QGraphicsItem::ItemIsSelectable);
+    text->setTextInteractionFlags(Qt::TextEditorInteraction);
+    text->setSelected(true);
+    text->setActive(true);
     text->setAcceptHoverEvents(true);
 }
+
+void MyGraphicsScene::displayText(int x, int y, QString inText){
+    }
 
 void MyGraphicsScene::textState(){
     QCursor curseur;
